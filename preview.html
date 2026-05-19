@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đề Thi Trắc Nghiệm Định Thức Ma Trận</title>
+
+<!-- MathJax -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)'], ['$', '$']]
+  }
+};
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:0;
+    padding:20px;
+    line-height:1.6;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+
+h1{
+    text-align:center;
+    color:#005a9c;
+}
+
+h2{
+    color:#c0392b;
+    border-bottom:2px solid #ddd;
+    padding-bottom:5px;
+}
+
+.question{
+    margin-top:25px;
+    padding:20px;
+    border-radius:12px;
+    background:#fafafa;
+    border-left:6px solid #3498db;
+}
+
+.option{
+    display:block;
+    margin:10px 0;
+    padding:12px;
+    border-radius:8px;
+    background:#ecf0f1;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.option:hover{
+    background:#d6eaf8;
+}
+
+.correct{
+    background:#2ecc71 !important;
+    color:white;
+}
+
+.wrong{
+    background:#e74c3c !important;
+    color:white;
+}
+
+.explanation{
+    margin-top:15px;
+    padding:15px;
+    border-radius:10px;
+    background:#fff3cd;
+    display:none;
+}
+
+.tip{
+    margin-top:10px;
+    color:#8e44ad;
+    font-weight:bold;
+}
+
+.level{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:8px;
+    color:white;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.easy{
+    background:#27ae60;
+}
+
+.medium{
+    background:#f39c12;
+}
+
+.hard{
+    background:#c0392b;
+}
+
+.theory{
+    background:#2980b9;
+}
+
+button{
+    margin-top:30px;
+    padding:12px 20px;
+    border:none;
+    border-radius:10px;
+    background:#005a9c;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#003f70;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>ĐỀ THI TRẮC NGHIỆM TƯƠNG TÁC<br>ĐỊNH THỨC MA TRẬN</h1>
+
+<p><b>Tổng số câu:</b> 20 câu<br>
+- 5 câu lý thuyết<br>
+- 5 câu dễ<br>
+- 5 câu trung bình<br>
+- 5 câu khó</p>
+
+<div id="quiz"></div>
+
+<button onclick="downloadHTML()">📥 Tải File HTML</button>
+
+</div>
+
+<script>
+
+const questions = [
+
+/* ======================
+LÝ THUYẾT
+====================== */
+
+{
+type:"theory",
+question:"Ý nghĩa hình học của \\(|\\det(A)|\\) với ma trận \\(2\\times2\\) là gì?",
+options:[
+"Chu vi hình bình hành",
+"Diện tích hình bình hành tạo bởi hai vectơ cột",
+"Độ dài vectơ",
+"Góc giữa hai vectơ"
+],
+correct:1,
+explanation:"Định thức của ma trận \\(2\\times2\\) biểu diễn diện tích có dấu của hình bình hành sinh bởi hai vectơ cột.",
+tip:"Nhớ: Định thức ↔ diện tích ↔ biến dạng không gian."
+},
+
+{
+type:"theory",
+question:"Nếu \\(\\det(A)=0\\) thì điều gì xảy ra?",
+options:[
+"A khả nghịch",
+"A mất thông tin và không khả nghịch",
+"Các cột độc lập tuyến tính",
+"A là ma trận đơn vị"
+],
+correct:1,
+explanation:"Khi định thức bằng 0, các vectơ cột phụ thuộc tuyến tính, không gian bị ép phẳng.",
+tip:"Định thức bằng 0 ⇒ ma trận suy biến."
+},
+
+{
+type:"theory",
+question:"Tính chất đúng là:",
+options:[
+"\\(\\det(AB)=\\det(A)+\\det(B)\\)",
+"\\(\\det(AB)=\\det(A)\\det(B)\\)",
+"\\(\\det(A+B)=\\det(A)+\\det(B)\\)",
+"\\(\\det(A^{-1})=\\det(A)\\)"
+],
+correct:1,
+explanation:"Định thức của tích bằng tích các định thức.",
+tip:"Định thức rất thích phép nhân."
+},
+
+{
+type:"theory",
+question:"Định thức của ma trận tam giác bằng gì?",
+options:[
+"Tổng đường chéo",
+"Tích đường chéo chính",
+"Tổng tất cả phần tử",
+"Luôn bằng 1"
+],
+correct:1,
+explanation:"Với ma trận tam giác trên/dưới, định thức bằng tích các phần tử trên đường chéo chính.",
+tip:"Tam giác ⇒ nhìn đường chéo."
+},
+
+{
+type:"theory",
+question:"Jacobian dùng để làm gì?",
+options:[
+"Tính đạo hàm cấp hai",
+"Đổi biến trong tích phân nhiều biến",
+"Tìm nghiệm phương trình bậc hai",
+"Tính tích phân xác định"
+],
+correct:1,
+explanation:"Jacobian đo sự thay đổi thể tích vi phân khi đổi biến.",
+tip:"Jacobian = hệ số co giãn thể tích."
+},
+
+/* ======================
+DỄ
+====================== */
+
+{
+type:"easy",
+question:"Tính \\(\\det\\begin{pmatrix}2&1\\\\3&4\\end{pmatrix}\\)",
+options:["5","8","10","11"],
+correct:0,
+explanation:"\\(2\\cdot4-1\\cdot3=8-3=5\\)",
+tip:"Ma trận \\(2\\times2\\): đường chéo chính trừ đường chéo phụ."
+},
+
+{
+type:"easy",
+question:"Tính \\(\\det\\begin{pmatrix}5&2\\\\1&3\\end{pmatrix}\\)",
+options:["13","15","17","11"],
+correct:0,
+explanation:"\\(5\\cdot3-2\\cdot1=15-2=13\\)",
+tip:"Nhân chéo thật cẩn thận."
+},
+
+{
+type:"easy",
+question:"Nếu \\(\\det(A)=4\\), tính \\(\\det(A^{-1})\\)",
+options:["4","1/4","-4","16"],
+correct:1,
+explanation:"\\(\\det(A^{-1})=1/\\det(A)=1/4\\)",
+tip:"Nghịch đảo ⇒ lấy nghịch đảo số."
+},
+
+{
+type:"easy",
+question:"Tính \\(\\det\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}\\)",
+options:["0","1","2","-1"],
+correct:1,
+explanation:"Ma trận đơn vị luôn có định thức bằng 1.",
+tip:"Identity matrix luôn giữ nguyên diện tích."
+},
+
+{
+type:"easy",
+question:"Nếu đổi chỗ hai hàng của ma trận thì định thức:",
+options:[
+"Không đổi",
+"Đổi dấu",
+"Nhân đôi",
+"Bằng 0"
+],
+correct:1,
+explanation:"Đổi hai hàng làm đảo hướng không gian.",
+tip:"Swap hàng ⇒ đổi dấu."
+},
+
+/* ======================
+TRUNG BÌNH
+====================== */
+
+{
+type:"medium",
+question:"Tính \\(\\det\\begin{pmatrix}1&2\\\\4&5\\end{pmatrix}\\)",
+options:["-3","3","5","7"],
+correct:0,
+explanation:"\\(1\\cdot5-2\\cdot4=5-8=-3\\)",
+tip:"Cẩn thận dấu âm."
+},
+
+{
+type:"medium",
+question:"Cho \\(\\det(A)=3\\), A là ma trận cấp 2. Tính \\(\\det(2A)\\)",
+options:["6","12","9","3"],
+correct:1,
+explanation:"\\(\\det(2A)=2^2\\det(A)=4\\cdot3=12\\)",
+tip:"Nhân toàn ma trận với k ⇒ định thức nhân \\(k^n\\)."
+},
+
+{
+type:"medium",
+question:"Tính \\(\\det\\begin{pmatrix}1&2&3\\\\0&1&4\\\\5&6&0\\end{pmatrix}\\)",
+options:["1","5","7","10"],
+correct:0,
+explanation:"Khai triển hoặc Sarrus cho kết quả bằng 1.",
+tip:"Ma trận 3x3 nên dùng Sarrus nhanh."
+},
+
+{
+type:"medium",
+question:"Nếu một hàng toàn số 0 thì định thức:",
+options:["1","-1","0","Không xác định"],
+correct:2,
+explanation:"Hình hộp bị ép phẳng nên thể tích bằng 0.",
+tip:"Có hàng 0 ⇒ chắc chắn suy biến."
+},
+
+{
+type:"medium",
+question:"Cho \\(\\det(A)=2\\), \\(\\det(B)=5\\). Tính \\(\\det(AB)\\)",
+options:["7","10","3","25"],
+correct:1,
+explanation:"\\(\\det(AB)=\\det(A)\\det(B)=10\\)",
+tip:"Định thức biến phép nhân ma trận thành phép nhân số."
+},
+
+/* ======================
+KHÓ
+====================== */
+
+{
+type:"hard",
+question:"Cho ma trận cấp 3 có \\(\\det(A)=-2\\). Tính \\(\\det(3A)\\)",
+options:["-18","-54","54","18"],
+correct:1,
+explanation:"\\(\\det(3A)=3^3\\det(A)=27(-2)=-54\\)",
+tip:"Ma trận cấp n ⇒ nhân k thì định thức nhân \\(k^n\\)."
+},
+
+{
+type:"hard",
+question:"Tính \\(\\det\\begin{pmatrix}2&1&0\\\\1&2&1\\\\0&1&2\\end{pmatrix}\\)",
+options:["2","4","6","8"],
+correct:1,
+explanation:"Khai triển theo hàng đầu: \\(2(4-1)-1(2)=6-2=4\\)",
+tip:"Ma trận có nhiều số 0 ⇒ khai triển theo hàng/cột chứa 0."
+},
+
+{
+type:"hard",
+question:"Nếu hai hàng tỉ lệ với nhau thì:",
+options:[
+"Định thức bằng 1",
+"Định thức âm",
+"Định thức bằng 0",
+"Không kết luận được"
+],
+correct:2,
+explanation:"Hai hàng phụ thuộc tuyến tính ⇒ không gian bị ép phẳng.",
+tip:"Hàng/cột phụ thuộc ⇒ det = 0."
+},
+
+{
+type:"hard",
+question:"Tính \\(\\det\\begin{pmatrix}1&2&1\\\\0&3&-1\\\\2&1&0\\end{pmatrix}\\)",
+options:["5","7","9","11"],
+correct:0,
+explanation:"Khai triển theo hàng đầu thu được 5.",
+tip:"Tìm hàng/cột dễ khai triển nhất."
+},
+
+{
+type:"hard",
+question:"Cho \\(\\det(A)=4\\). Tính \\(\\det(A^2)\\)",
+options:["8","16","4","2"],
+correct:1,
+explanation:"\\(\\det(A^2)=\\det(A)^2=16\\)",
+tip:"Lũy thừa ma trận ⇒ lũy thừa định thức."
+}
+
+];
+
+const quizDiv = document.getElementById("quiz");
+
+questions.forEach((q,index)=>{
+
+let levelClass = q.type;
+
+let html = `
+<div class="question">
+<div class="level ${levelClass}">
+${q.type.toUpperCase()}
+</div>
+
+<h3>Câu ${index+1}: ${q.question}</h3>
+`;
+
+q.options.forEach((opt,i)=>{
+html += `
+<div class="option" onclick="checkAnswer(this,${i},${q.correct},'exp${index}')">
+${String.fromCharCode(65+i)}. ${opt}
+</div>
+`;
+});
+
+html += `
+<div class="explanation" id="exp${index}">
+<b>Đáp án đúng:</b> ${String.fromCharCode(65+q.correct)}<br><br>
+<b>Giải thích:</b> ${q.explanation}
+<div class="tip">💡 Mẹo nhanh: ${q.tip}</div>
+</div>
+</div>
+`;
+
+quizDiv.innerHTML += html;
+
+});
+
+function checkAnswer(el,selected,correct,expId){
+
+let parent = el.parentElement;
+let options = parent.querySelectorAll(".option");
+
+options.forEach(opt=>opt.style.pointerEvents="none");
+
+if(selected===correct){
+el.classList.add("correct");
+}else{
+el.classList.add("wrong");
+options[correct].classList.add("correct");
+}
+
+document.getElementById(expId).style.display="block";
+
+MathJax.typeset();
+}
+
+function downloadHTML(){
+
+const htmlContent = document.documentElement.outerHTML;
+
+const blob = new Blob([htmlContent], {type:"text/html"});
+
+const a = document.createElement("a");
+
+a.href = URL.createObjectURL(blob);
+
+a.download = "de-thi-dinh-thuc-tuong-tac.html";
+
+a.click();
+}
+
+</script>
+
+</body>
+</html>
