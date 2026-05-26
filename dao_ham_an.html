@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Đề Thi Trắc Nghiệm Tương Tác - Đạo Hàm Hàm Ẩn</title>
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+
+body{
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(to right,#eef5ff,#dfefff);
+    color:#222;
+}
+
+header{
+    background:#005b9f;
+    color:white;
+    text-align:center;
+    padding:30px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.25);
+}
+
+header h1{
+    margin:0;
+    font-size:36px;
+}
+
+header p{
+    margin-top:10px;
+    font-size:18px;
+}
+
+.container{
+    width:95%;
+    max-width:1200px;
+    margin:30px auto;
+}
+
+.section-title{
+    background:#003f6d;
+    color:white;
+    padding:14px;
+    border-radius:12px;
+    margin-top:35px;
+    font-size:25px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.2);
+}
+
+.question-box{
+    background:white;
+    border-radius:18px;
+    padding:24px;
+    margin-top:22px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    transition:0.3s;
+}
+
+.question-box:hover{
+    transform:translateY(-2px);
+}
+
+.question-title{
+    font-size:20px;
+    font-weight:bold;
+    color:#004f88;
+    margin-bottom:18px;
+}
+
+.option{
+    padding:12px;
+    border-radius:10px;
+    border:2px solid #ccc;
+    margin:10px 0;
+    cursor:pointer;
+    transition:0.25s;
+    background:#fafafa;
+}
+
+.option:hover{
+    background:#eef6ff;
+}
+
+.correct{
+    background:#baf5c5 !important;
+    border-color:#1f9d43 !important;
+    color:#0a5d22;
+    font-weight:bold;
+}
+
+.wrong{
+    background:#ffd0d0 !important;
+    border-color:#cc0000 !important;
+    color:#8c0000;
+    font-weight:bold;
+}
+
+.explanation{
+    margin-top:18px;
+    padding:18px;
+    border-left:6px solid #005b9f;
+    background:#eef6ff;
+    border-radius:10px;
+    display:none;
+    line-height:1.7;
+}
+
+.tip{
+    margin-top:12px;
+    background:#fff7d8;
+    border-left:6px solid orange;
+    padding:12px;
+    border-radius:8px;
+}
+
+.score-board{
+    margin-top:40px;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+.score-board h2{
+    color:#005b9f;
+}
+
+.download-btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:14px 26px;
+    background:#005b9f;
+    color:white;
+    text-decoration:none;
+    border-radius:12px;
+    font-size:18px;
+    transition:0.3s;
+}
+
+.download-btn:hover{
+    background:#003f6d;
+}
+
+footer{
+    margin-top:50px;
+    background:#003f6d;
+    color:white;
+    text-align:center;
+    padding:30px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>ĐỀ THI TƯƠNG TÁC – ĐẠO HÀM HÀM ẨN</h1>
+<p>Đạo hàm hai vế – Nhóm $y'$ – Giải phương trình</p>
+</header>
+
+<div class="container" id="quiz-container"></div>
+
+<div class="container">
+<div class="score-board">
+<h2>Kết quả hiện tại</h2>
+<p id="score">0 / 20 câu đúng</p>
+
+<a class="download-btn" id="downloadLink" download="de_thi_dao_ham_ham_an.html">
+📥 Tải file HTML đề thi
+</a>
+
+</div>
+</div>
+
+<footer>
+<h3>“Khi $x$ và $y$ quấn quýt, hãy đạo hàm toàn bộ để $y'$ tự lộ diện.”</h3>
+</footer>
+
+<script>
+
+const questions = [
+
+/* ================= LÝ THUYẾT ================= */
+
+{
+section:'5 Câu Lý Thuyết',
+question:'Hàm ẩn thường có dạng nào?',
+options:[
+'$y=f(x)$',
+'$F(x,y)=0$',
+'$x=f(y)$',
+'$y=ax+b$'
+],
+answer:1,
+explanation:'Hàm ẩn là phương trình liên hệ giữa $x$ và $y$, thường viết dưới dạng $F(x,y)=0$.',
+tip:'Nhìn thấy cả $x$ và $y$ trộn lẫn trong cùng phương trình → thường là hàm ẩn.'
+},
+
+{
+section:'5 Câu Lý Thuyết',
+question:'Khi đạo hàm $y^2$ theo $x$, kết quả đúng là gì?',
+options:[
+'$2y$',
+'$2y+y\'$',
+'$2yy\'$',
+'$y^2y\'$'
+],
+answer:2,
+explanation:'Do $y$ là hàm của $x$, dùng quy tắc hàm hợp: $\\dfrac{d}{dx}(y^2)=2y\\cdot y\'$.',
+tip:'Đạo hàm biểu thức chứa $y$ luôn nhớ nhân thêm $y\'$.'
+},
+
+{
+section:'5 Câu Lý Thuyết',
+question:'Sau khi đạo hàm hai vế của hàm ẩn, bước tiếp theo là gì?',
+options:[
+'Vẽ đồ thị',
+'Thay số',
+'Nhóm các số hạng chứa $y\'$',
+'Tính tích phân'
+],
+answer:2,
+explanation:'Muốn tìm $y\'$ thì phải gom toàn bộ số hạng chứa $y\'$ về cùng một vế.',
+tip:'Từ khóa quan trọng: nhóm $y\'$.'
+},
+
+{
+section:'5 Câu Lý Thuyết',
+question:'Đạo hàm của hằng số $1$ là?',
+options:[
+'$1$',
+'$x$',
+'$0$',
+'$-1$'
+],
+answer:2,
+explanation:'Mọi hằng số đều có đạo hàm bằng $0$.',
+tip:'Không đổi → đạo hàm bằng 0.'
+},
+
+{
+section:'5 Câu Lý Thuyết',
+question:'Quy tắc nào thường dùng khi đạo hàm $x^2y$?',
+options:[
+'Quy tắc thương',
+'Quy tắc nhân',
+'Quy tắc tích phân',
+'Quy tắc lượng giác'
+],
+answer:1,
+explanation:'$x^2y$ là tích của hai hàm nên dùng quy tắc nhân.',
+tip:'Có dấu nhân giữa hai biểu thức → nghĩ ngay tới quy tắc nhân.'
+},
+
+/* ================= DỄ ================= */
+
+{
+section:'5 Câu Bài Tập Dễ',
+question:'Cho $x^2+y^2=1$. Đạo hàm của $x^2$ là?',
+options:[
+'$x$',
+'$2x$',
+'$x^2$',
+'$2$'
+],
+answer:1,
+explanation:'Theo quy tắc đạo hàm lũy thừa: $(x^2)\'=2x$.',
+tip:'Đạo hàm $x^n = nx^{n-1}$.'
+},
+
+{
+section:'5 Câu Bài Tập Dễ',
+question:'Cho $x^2+y^2=1$. Sau khi đạo hàm hai vế ta được?',
+options:[
+'$2x+2yy\'=0$',
+'$x+y=1$',
+'$2x+2y=1$',
+'$2x+y\'=0$'
+],
+answer:0,
+explanation:'Đạo hàm từng hạng tử: $(x^2)\'=2x$, $(y^2)\'=2yy\'$, $(1)\'=0$.',
+tip:'Biểu thức chứa $y$ luôn phải nhân thêm $y\'$.'
+},
+
+{
+section:'5 Câu Bài Tập Dễ',
+question:'Từ $2x+2yy\'=0$, suy ra $y\'$ bằng?',
+options:[
+'$\\dfrac{x}{y}$',
+'$-\\dfrac{x}{y}$',
+'$-\\dfrac{y}{x}$',
+'$\\dfrac{y}{x}$'
+],
+answer:1,
+explanation:'Chuyển vế: $2yy\'=-2x \\Rightarrow y\'=-\\dfrac{x}{y}$.',
+tip:'Chuyển vế đổi dấu rồi chia cho hệ số của $y\'$.'
+},
+
+{
+section:'5 Câu Bài Tập Dễ',
+question:'Đạo hàm của $xy$ là?',
+options:[
+'$x+y$',
+'$xy\'$',
+'$y+xy\'$',
+'$x+y\'$'
+],
+answer:2,
+explanation:'Dùng quy tắc nhân: $(xy)\'=x\'y+xy\'=y+xy\'$.',
+tip:'Đạo hàm tích = đạo hàm cái trước × cái sau + cái trước × đạo hàm cái sau.'
+},
+
+{
+section:'5 Câu Bài Tập Dễ',
+question:'Đạo hàm của $y$ theo $x$ thường ký hiệu là?',
+options:[
+'$x\'$',
+'$dy$',
+'$y\'$',
+'$\\Delta y$'
+],
+answer:2,
+explanation:'Ký hiệu phổ biến nhất là $y\'$ hoặc $\\dfrac{dy}{dx}$.',
+tip:'Thấy đạo hàm của $y$ → nghĩ ngay tới $y\'$.'
+},
+
+/* ================= TRUNG BÌNH ================= */
+
+{
+section:'5 Câu Bài Tập Trung Bình',
+question:'Cho $x^3+y^3=6$. Đạo hàm hai vế được?',
+options:[
+'$3x^2+3y^2y\'=0$',
+'$x^2+y^2=0$',
+'$3x+3y=0$',
+'$3x^2+3y^2=6$'
+],
+answer:0,
+explanation:'Đạo hàm: $(x^3)\'=3x^2$, $(y^3)\'=3y^2y\'$, đạo hàm của $6$ bằng $0$.',
+tip:'Hễ đạo hàm $y^n$ thì nhớ nhân thêm $y\'$.'
+},
+
+{
+section:'5 Câu Bài Tập Trung Bình',
+question:'Từ $3x^2+3y^2y\'=0$, suy ra $y\'$ bằng?',
+options:[
+'$-\\dfrac{x^2}{y^2}$',
+'$\\dfrac{x^2}{y^2}$',
+'$-\\dfrac{y^2}{x^2}$',
+'$\\dfrac{y^2}{x^2}$'
+],
+answer:0,
+explanation:'$3y^2y\'=-3x^2 \\Rightarrow y\'=-\\dfrac{x^2}{y^2}$.',
+tip:'Chia cả tử và mẫu cho 3 để tính nhanh.'
+},
+
+{
+section:'5 Câu Bài Tập Trung Bình',
+question:'Đạo hàm của $3x^2y$ là?',
+options:[
+'$6xy+3x^2y\'$',
+'$6x^2y$',
+'$3x^2y$',
+'$6xy\'$'
+],
+answer:0,
+explanation:'Dùng quy tắc nhân: $(3x^2)\'y+3x^2y\'=6xy+3x^2y\'$.',
+tip:'Tách thành “hàm thứ nhất × hàm thứ hai”.'
+},
+
+{
+section:'5 Câu Bài Tập Trung Bình',
+question:'Đạo hàm của $\\sin(y)$ theo $x$ là?',
+options:[
+'$\\cos(y)$',
+'$\\sin(y)y\'$',
+'$\\cos(y)y\'$',
+'$-\\sin(y)$'
+],
+answer:2,
+explanation:'Dùng quy tắc hàm hợp: $(\\sin y)\'=\\cos(y)\\cdot y\'$.',
+tip:'Hàm lượng giác chứa $y$ → luôn nhân thêm $y\'$.'
+},
+
+{
+section:'5 Câu Bài Tập Trung Bình',
+question:'Cho $x+y^2=5$. Tìm $y\'$.',
+options:[
+'$-\\dfrac{1}{2y}$',
+'$\\dfrac{1}{2y}$',
+'$-2y$',
+'$2y$'
+],
+answer:0,
+explanation:'Đạo hàm: $1+2yy\'=0 \\Rightarrow y\'=-\\dfrac{1}{2y}$.',
+tip:'Đạo hàm hằng số bằng 0 nên vế phải biến mất.'
+},
+
+/* ================= KHÓ ================= */
+
+{
+section:'5 Câu Bài Tập Khó',
+question:'Cho $x^2+xy+y^2=7$. Đạo hàm hai vế được?',
+options:[
+'$2x+y+xy\'+2yy\'=0$',
+'$2x+y+y\'+2yy\'=0$',
+'$x+y=7$',
+'$2x+2y=0$'
+],
+answer:0,
+explanation:'Đạo hàm từng phần: $(xy)\'=y+xy\'$, $(y^2)\'=2yy\'$.',
+tip:'Bài có nhiều tích → làm chậm từng bước.'
+},
+
+{
+section:'5 Câu Bài Tập Khó',
+question:'Từ $2x+y+xy\'+2yy\'=0$, nhóm $y\'$ đúng là?',
+options:[
+'$y\'(x+2y)=-2x-y$',
+'$y\'(x+y)=-2x$',
+'$y\'(2x+2y)=y$',
+'$y\'=-2x-y$'
+],
+answer:0,
+explanation:'Lấy $y\'$ làm nhân tử chung: $xy\'+2yy\'=y\'(x+2y)$.',
+tip:'Nhìn hệ số đứng trước $y\'$ rồi đặt nhân tử chung.'
+},
+
+{
+section:'5 Câu Bài Tập Khó',
+question:'Từ $y\'(x+2y)=-2x-y$, suy ra $y\'$ bằng?',
+options:[
+'$\\dfrac{-2x-y}{x+2y}$',
+'$\\dfrac{2x+y}{x+2y}$',
+'$\\dfrac{x+2y}{-2x-y}$',
+'$-2x-y$'
+],
+answer:0,
+explanation:'Chia hai vế cho $(x+2y)$.',
+tip:'Bước cuối luôn là chia cho hệ số của $y\'$.'
+},
+
+{
+section:'5 Câu Bài Tập Khó',
+question:'Đạo hàm của $e^y$ theo $x$ là?',
+options:[
+'$e^y$',
+'$e^yy\'$',
+'$ye^y$',
+'$e^x$'
+],
+answer:1,
+explanation:'Theo quy tắc hàm hợp: $(e^y)\'=e^y\\cdot y\'$.',
+tip:'Hàm mũ chứa $y$ → nhân thêm $y\'$.'
+},
+
+{
+section:'5 Câu Bài Tập Khó',
+question:'Trong đạo hàm hàm ẩn, mục tiêu cuối cùng là gì?',
+options:[
+'Tính tích phân',
+'Vẽ đồ thị',
+'Tìm công thức của $y\'$',
+'Tìm giới hạn'
+],
+answer:2,
+explanation:'Toàn bộ quá trình đạo hàm hai vế nhằm tìm biểu thức của $y\'$.',
+tip:'Luôn nhớ đích đến cuối cùng là cô lập $y\'$.'
+}
+
+];
+
+const container = document.getElementById('quiz-container');
+
+let score = 0;
+let currentSection = '';
+
+questions.forEach((q,index)=>{
+
+    if(q.section !== currentSection){
+
+        currentSection = q.section;
+
+        const sectionDiv = document.createElement('div');
+        sectionDiv.className = 'section-title';
+        sectionDiv.innerHTML = currentSection;
+
+        container.appendChild(sectionDiv);
+    }
+
+    const box = document.createElement('div');
+    box.className = 'question-box';
+
+    const title = document.createElement('div');
+    title.className = 'question-title';
+    title.innerHTML = `Câu ${index+1}. ${q.question}`;
+
+    box.appendChild(title);
+
+    q.options.forEach((opt,i)=>{
+
+        const btn = document.createElement('div');
+        btn.className = 'option';
+
+        btn.innerHTML = `${String.fromCharCode(65+i)}. ${opt}`;
+
+        btn.onclick = ()=>{
+
+            if(box.classList.contains('done')) return;
+
+            box.classList.add('done');
+
+            const allOptions = box.querySelectorAll('.option');
+
+            allOptions[q.answer].classList.add('correct');
+
+            if(i === q.answer){
+                score++;
+            }else{
+                btn.classList.add('wrong');
+            }
+
+            explanation.style.display = 'block';
+
+            document.getElementById('score').innerHTML =
+                `${score} / 20 câu đúng`;
+
+            MathJax.typesetPromise();
+        };
+
+        box.appendChild(btn);
+
+    });
+
+    const explanation = document.createElement('div');
+
+    explanation.className = 'explanation';
+
+    explanation.innerHTML = `
+    <b>✅ Đáp án đúng:</b> ${String.fromCharCode(65+q.answer)}
+    <br><br>
+
+    <b>📘 Giải thích:</b> ${q.explanation}
+
+    <div class="tip">
+    <b>⚡ Mẹo làm nhanh:</b> ${q.tip}
+    </div>
+    `;
+
+    box.appendChild(explanation);
+
+    container.appendChild(box);
+
+});
+
+MathJax.typesetPromise();
+
+const htmlContent = document.documentElement.outerHTML;
+
+const blob = new Blob([htmlContent], {type:'text/html'});
+
+const url = URL.createObjectURL(blob);
+
+document.getElementById('downloadLink').href = url;
+
+</script>
+
+</body>
+</html>
